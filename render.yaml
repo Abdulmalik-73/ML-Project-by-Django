@@ -4,8 +4,8 @@ services:
     env: python
     region: oregon
     plan: free
-    buildCommand: pip install -r haramaya_house_prediction/requirements.txt && python haramaya_house_prediction/manage.py migrate && python haramaya_house_prediction/manage.py collectstatic --noinput
-    startCommand: gunicorn config.wsgi:application --chdir haramaya_house_prediction
+    buildCommand: cd haramaya_house_prediction && pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: cd haramaya_house_prediction && gunicorn config.wsgi:application
     envVars:
       - key: DEBUG
         value: false
