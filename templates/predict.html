@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Predict House Price - Haramaya{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white;">
+                    <h3 class="mb-0"><i class="fas fa-calculator"></i> House Price Prediction Form</h3>
+                </div>
+                <div class="card-body">
+                    {% if not model_loaded %}
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <strong>Model Not Found!</strong> Please train the model first by running: <code>python train_model.py</code>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i> 
+                        Model Accuracy (R² Score): <strong>{{ r2_score }}</strong>
+                    </div>
+                    {% endif %}
+
+                    <form method="post" class="needs-validation">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.bedrooms.id_for_label }}" class="form-label">
+                                    <i class="fas fa-door-open"></i> Bedrooms
+                                </label>
+                                {{ form.bedrooms }}
+                                {% if form.bedrooms.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.bedrooms.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.bathrooms.id_for_label }}" class="form-label">
+                                    <i class="fas fa-bath"></i> Bathrooms
+                                </label>
+                                {{ form.bathrooms }}
+                                {% if form.bathrooms.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.bathrooms.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.house_size.id_for_label }}" class="form-label">
+                                    <i class="fas fa-ruler-combined"></i> House Size (sqm)
+                                </label>
+                                {{ form.house_size }}
+                                {% if form.house_size.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.house_size.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.land_size.id_for_label }}" class="form-label">
+                                    <i class="fas fa-square"></i> Land Size (sqm)
+                                </label>
+                                {{ form.land_size }}
+                                {% if form.land_size.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.land_size.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.location.id_for_label }}" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Location
+                                </label>
+                                {{ form.location }}
+                                {% if form.location.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.location.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.condition.id_for_label }}" class="form-label">
+                                    <i class="fas fa-star"></i> House Condition
+                                </label>
+                                {{ form.condition }}
+                                {% if form.condition.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.condition.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.year_built.id_for_label }}" class="form-label">
+                                <i class="fas fa-calendar"></i> Year Built
+                            </label>
+                            {{ form.year_built }}
+                            {% if form.year_built.errors %}
+                                <div class="invalid-feedback d-block">{{ form.year_built.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg" {% if not model_loaded %}disabled{% endif %}>
+                                <i class="fas fa-magic"></i> Predict Price
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="card mt-4">
+                <div class="card-header" style="background-color: #ecf0f1;">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Tips for Accurate Predictions</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Provide accurate measurements for house and land size</li>
+                        <li>Select the correct location in Haramaya Town</li>
+                        <li>Choose the appropriate house condition</li>
+                        <li>Enter the actual year the house was built</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

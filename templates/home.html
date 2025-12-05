@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Haramaya House Price Prediction{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Welcome to Haramaya House Price Prediction</h1>
+        <p>Predict house prices in Haramaya Town using advanced Machine Learning</p>
+        <a href="{% url 'predictor:predict' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-calculator"></i> Predict House Price
+        </a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">How It Works</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-home fa-3x mb-3" style="color: #3498db;"></i>
+                        <h5 class="card-title">Enter House Details</h5>
+                        <p class="card-text">Provide information about the house including bedrooms, bathrooms, size, and location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-brain fa-3x mb-3" style="color: #e74c3c;"></i>
+                        <h5 class="card-title">ML Analysis</h5>
+                        <p class="card-text">Our trained Random Forest model analyzes the data and generates predictions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-bar fa-3x mb-3" style="color: #27ae60;"></i>
+                        <h5 class="card-title">Get Results</h5>
+                        <p class="card-text">Receive accurate price predictions with confidence ranges in Ethiopian Birr (ETB).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Locations Section -->
+<section class="py-5" style="background-color: #ecf0f1;">
+    <div class="container">
+        <h2 class="text-center mb-5">Haramaya Town Locations</h2>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="info-box">
+                    <h5><i class="fas fa-map-marker-alt"></i> Tinika</h5>
+                    <p>Residential area with good infrastructure and accessibility.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="info-box">
+                    <h5><i class="fas fa-map-marker-alt"></i> Harar Gate Area</h5>
+                    <p>Commercial and residential hub near the main entrance.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="info-box">
+                    <h5><i class="fas fa-map-marker-alt"></i> University Area</h5>
+                    <p>Developed area near Haramaya University with modern facilities.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="info-box">
+                    <h5><i class="fas fa-map-marker-alt"></i> Gende Kore</h5>
+                    <p>Growing residential neighborhood with affordable properties.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="info-box">
+                    <h5><i class="fas fa-map-marker-alt"></i> Quncho Ber</h5>
+                    <p>Premium residential area with spacious properties.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="info-box">
+                    <h5><i class="fas fa-map-marker-alt"></i> Kore Hiwot</h5>
+                    <p>Developing area with potential for growth and investment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Predict?</h2>
+        <p class="lead mb-4">Get an accurate estimate of house prices in Haramaya Town</p>
+        <a href="{% url 'predictor:predict' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-calculator"></i> Start Prediction
+        </a>
+    </div>
+</section>
+{% endblock %}
