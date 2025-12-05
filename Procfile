@@ -1,2 +1,2 @@
-web: gunicorn config.wsgi:application
-release: python manage.py migrate
+web: gunicorn config.wsgi:application --chdir haramaya_house_prediction
+release: python haramaya_house_prediction/manage.py migrate

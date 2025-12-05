@@ -4,10 +4,12 @@ services:
     env: python
     region: oregon
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
-    startCommand: gunicorn config.wsgi:application
+    buildCommand: pip install -r haramaya_house_prediction/requirements.txt && python haramaya_house_prediction/manage.py migrate && python haramaya_house_prediction/manage.py collectstatic --noinput
+    startCommand: gunicorn config.wsgi:application --chdir haramaya_house_prediction
     envVars:
       - key: DEBUG
         value: false
       - key: PYTHON_VERSION
         value: 3.11.0
+      - key: SECRET_KEY
+        value: django-insecure-haramaya-house-prediction-render-deployment-2025
