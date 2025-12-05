@@ -1,2 +1,2 @@
-web: cd haramaya_house_prediction && gunicorn config.wsgi:application
-release: cd haramaya_house_prediction && python manage.py migrate
+web: gunicorn config.wsgi:application
+release: python manage.py migrate
