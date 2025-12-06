@@ -1,0 +1,89 @@
+================================================================================
+                   HOW TO RUN YOUR PROJECT - SIMPLE GUIDE
+================================================================================
+
+FOLDER LOCATION:
+----------------
+You MUST be in this folder:
+C:\Users\nurea\Desktop\Python Django project\haramaya_house_prediction
+
+
+METHOD 1: EASIEST WAY (Double-Click)
+-------------------------------------
+1. Open File Explorer
+2. Go to: C:\Users\nurea\Desktop\Python Django project\haramaya_house_prediction
+3. Double-click: START_SERVER.bat
+4. Done! Server starts automatically
+5. Open browser: http://127.0.0.1:8000/
+
+
+METHOD 2: USING TERMINAL
+-------------------------
+Step 1: Open Command Prompt in the correct folder
+   - Open File Explorer
+   - Navigate to: C:\Users\nurea\Desktop\Python Django project\haramaya_house_prediction
+   - Click in the address bar (where it shows the path)
+   - Type: cmd
+   - Press Enter
+   - Terminal opens in the correct folder!
+
+Step 2: Run the server
+   Type: python run.py
+   Press Enter
+
+Step 3: Open browser
+   Visit: http://127.0.0.1:8000/
+
+
+METHOD 3: STREAMLIT UI (Simple Interface)
+------------------------------------------
+Step 1: Open terminal in haramaya_house_prediction folder (see Method 2, Step 1)
+
+Step 2: Run Streamlit
+   Type: streamlit run streamlit.py
+   Press Enter
+
+Step 3: Browser opens automatically!
+
+
+QUICK COMMANDS:
+---------------
+Django Server:    python run.py
+Streamlit UI:     streamlit run streamlit.py
+Train Model:      python train_model.py
+
+
+VERIFY YOU'RE IN THE RIGHT FOLDER:
+-----------------------------------
+Type: dir
+You should see these files:
+- run.py
+- streamlit.py
+- manage.py
+- START_SERVER.bat
+- START_STREAMLIT.bat
+
+If you don't see these files, you're in the WRONG folder!
+
+
+TROUBLESHOOTING:
+----------------
+Problem: "python is not recognized"
+Solution: Install Python from https://www.python.org/downloads/
+
+Problem: "No module named 'django'"
+Solution: Type: pip install django whitenoise python-decouple
+
+Problem: "Model not found"
+Solution: Type: python train_model.py
+
+
+================================================================================
+                              THAT'S IT!
+================================================================================
+
+Easiest: Just double-click START_SERVER.bat in the haramaya_house_prediction folder!
+
+Questions? Check QUICK_START.md for detailed instructions.
+
+================================================================================
