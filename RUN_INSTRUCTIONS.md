@@ -1,8 +1,31 @@
 # 🚀 How to Run the Project
 
+## 📁 IMPORTANT: Open Terminal in the Correct Folder
+
+**You MUST open your terminal in the `haramaya_house_prediction` folder!**
+
+### How to Open Terminal in the Right Folder:
+
+**Option 1: Using File Explorer (Windows)**
+1. Navigate to: `C:\Users\nurea\Desktop\Python Django project\haramaya_house_prediction`
+2. Click in the address bar and type `cmd` then press Enter
+3. Terminal will open in the correct folder
+
+**Option 2: Using Command Prompt**
+```bash
+cd "C:\Users\nurea\Desktop\Python Django project\haramaya_house_prediction"
+```
+
+**Option 3: Using VS Code**
+1. Open the `haramaya_house_prediction` folder in VS Code
+2. Open Terminal (Ctrl + `)
+3. Terminal automatically opens in the correct folder
+
+---
+
 ## Method 1: Using run.py (Django - Recommended)
 
-Simply run:
+**In the `haramaya_house_prediction` folder, run:**
 ```bash
 python run.py
 ```
@@ -19,7 +42,9 @@ Then open your browser and visit:
 
 ---
 
-## Method 2: Using Streamlit (Simple UI)
+## Method 2: Using streamlit.py (Simple UI)
+
+**In the `haramaya_house_prediction` folder:**
 
 First install Streamlit:
 ```bash
@@ -28,7 +53,7 @@ pip install streamlit
 
 Then run:
 ```bash
-streamlit run streamlit_app.py
+streamlit run streamlit.py
 ```
 
 This will open a simpler, cleaner interface in your browser automatically.
