@@ -36,77 +36,87 @@ class PredictionView(FormView):
         return context
     
     def form_valid(self, form):
-        model_data = load_model()
+        try:
+            model_data = load_model()
+            
+            if not model_data:
+                return render(self.request, 'error.html', {
+                    'error': 'Model not found. Please train the model first.'
+                })
+            
+            # Extract form data
+            bedrooms = form.cleaned_data['bedrooms']
+            bathrooms = form.cleaned_data['bathrooms']
+            house_size = form.cleaned_data['house_size']
+            land_size = form.cleaned_data['land_size']
+            location = form.cleaned_data['location']
+            condition = form.cleaned_data['condition']
+            year_built = form.cleaned_data['year_built']
+            
+            # Encode categorical variables
+            le_location = model_data['le_location']
+            le_condition = model_data['le_condition']
+            
+            location_encoded = le_location.transform([location])[0]
+            condition_encoded = le_condition.transform([condition])[0]
+            
+            # Prepare features with proper feature names
+            feature_names = model_data.get('feature_names', ['bedrooms', 'bathrooms', 'house_size', 'land_size', 'location', 'condition', 'year_built'])
+            features = pd.DataFrame([[
+                bedrooms,
+                bathrooms,
+                house_size,
+                land_size,
+                location_encoded,
+                condition_encoded,
+                year_built
+            ]], columns=feature_names)
+            
+            # Make prediction
+            model = model_data['model']
+            predicted_price = model.predict(features)[0]
+            
+            # Calculate confidence range (±10%)
+            lower_range = predicted_price * 0.9
+            upper_range = predicted_price * 1.1
+            
+            # Save to history
+            PredictionHistory.objects.create(
+                bedrooms=bedrooms,
+                bathrooms=bathrooms,
+                house_size=house_size,
+                land_size=land_size,
+                location=location,
+                condition=condition,
+                year_built=year_built,
+                predicted_price=predicted_price
+            )
+            
+            context = {
+                'predicted_price': f"{predicted_price:,.0f}",
+                'lower_range': f"{lower_range:,.0f}",
+                'upper_range': f"{upper_range:,.0f}",
+                'bedrooms': bedrooms,
+                'bathrooms': bathrooms,
+                'house_size': house_size,
+                'land_size': land_size,
+                'location': location,
+                'condition': condition,
+                'year_built': year_built,
+                'r2_score': f"{model_data['r2_score']:.4f}",
+                'mae': f"{model_data['mae']:,.0f}",
+            }
+            
+            return render(self.request, 'result.html', context)
         
-        if not model_data:
+        except Exception as e:
+            import traceback
+            error_details = traceback.format_exc()
+            print(f"ERROR in form_valid: {e}")
+            print(error_details)
             return render(self.request, 'error.html', {
-                'error': 'Model not found. Please train the model first.'
+                'error': f'Prediction error: {str(e)}'
             })
-        
-        # Extract form data
-        bedrooms = form.cleaned_data['bedrooms']
-        bathrooms = form.cleaned_data['bathrooms']
-        house_size = form.cleaned_data['house_size']
-        land_size = form.cleaned_data['land_size']
-        location = form.cleaned_data['location']
-        condition = form.cleaned_data['condition']
-        year_built = form.cleaned_data['year_built']
-        
-        # Encode categorical variables
-        le_location = model_data['le_location']
-        le_condition = model_data['le_condition']
-        
-        location_encoded = le_location.transform([location])[0]
-        condition_encoded = le_condition.transform([condition])[0]
-        
-        # Prepare features with proper feature names
-        feature_names = model_data.get('feature_names', ['bedrooms', 'bathrooms', 'house_size', 'land_size', 'location', 'condition', 'year_built'])
-        features = pd.DataFrame([[
-            bedrooms,
-            bathrooms,
-            house_size,
-            land_size,
-            location_encoded,
-            condition_encoded,
-            year_built
-        ]], columns=feature_names)
-        
-        # Make prediction
-        model = model_data['model']
-        predicted_price = model.predict(features)[0]
-        
-        # Calculate confidence range (±10%)
-        lower_range = predicted_price * 0.9
-        upper_range = predicted_price * 1.1
-        
-        # Save to history
-        PredictionHistory.objects.create(
-            bedrooms=bedrooms,
-            bathrooms=bathrooms,
-            house_size=house_size,
-            land_size=land_size,
-            location=location,
-            condition=condition,
-            year_built=year_built,
-            predicted_price=predicted_price
-        )
-        
-        context = {
-            'predicted_price': f"{predicted_price:,.0f}",
-            'lower_range': f"{lower_range:,.0f}",
-            'upper_range': f"{upper_range:,.0f}",
-            'bedrooms': bedrooms,
-            'bathrooms': bathrooms,
-            'house_size': house_size,
-            'land_size': land_size,
-            'location': location,
-            'condition': condition,
-            'year_built': year_built,
-            'r2_score': f"{model_data['r2_score']:.4f}",
-            'mae': f"{model_data['mae']:,.0f}",
-        }
-        
-        return render(self.request, 'result.html', context)
 
 @csrf_exempt
 @require_http_methods(["POST"])
