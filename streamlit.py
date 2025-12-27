@@ -7,6 +7,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import os
+import pandas as pd
 
 # Page configuration
 st.set_page_config(
@@ -26,6 +27,30 @@ def load_model():
     except FileNotFoundError:
         return None
 
+
+# Load dataset (if available)
+@st.cache_data
+def load_dataset():
+    """Try multiple likely locations for the CSV and return a DataFrame or None."""
+    base_dir = os.path.dirname(__file__)
+    candidates = [
+        os.path.join(base_dir, 'haramaya_house_data.csv'),
+        os.path.join(base_dir, '..', 'haramaya_house_dataset', 'haramaya_house_data.csv'),
+        os.path.join(base_dir, '..', 'haramaya_house_prediction', 'haramaya_house_data.csv'),
+        os.path.join(os.getcwd(), 'haramaya_house_dataset', 'haramaya_house_data.csv'),
+        os.path.join(os.getcwd(), 'haramaya_house_prediction', 'haramaya_house_data.csv'),
+        os.path.join(os.getcwd(), 'haramaya_house_data.csv'),
+    ]
+
+    for p in candidates:
+        path = os.path.abspath(os.path.normpath(p))
+        if os.path.exists(path):
+            try:
+                return pd.read_csv(path)
+            except Exception:
+                return None
+    return None
+
 # Main app
 def main():
     st.title("🏠 Haramaya House Price Prediction")
@@ -33,6 +58,8 @@ def main():
     
     # Load model
     model_data = load_model()
+    # Load dataset (optional)
+    dataset = load_dataset()
     
     if not model_data:
         st.error("❌ Model not found! Please train the model first by running: `python train_model.py`")
@@ -46,6 +73,15 @@ def main():
         st.metric("RMSE", f"{model_data['rmse']:,.0f} ETB")
         st.markdown("---")
         st.info("This model predicts house prices in Haramaya Town, Ethiopia")
+        st.markdown("---")
+        if dataset is not None:
+            if st.checkbox("📁 Show dataset (sample)"):
+                st.dataframe(dataset.head(200))
+
+            csv = dataset.to_csv(index=False).encode('utf-8')
+            st.download_button("⬇️ Download dataset CSV", data=csv, file_name='haramaya_house_data.csv', mime='text/csv')
+        else:
+            st.write("Dataset not found in repository. Place `haramaya_house_data.csv` under `haramaya_house_dataset/` or next to this script.")
     
     # Main content
     col1, col2 = st.columns(2)
