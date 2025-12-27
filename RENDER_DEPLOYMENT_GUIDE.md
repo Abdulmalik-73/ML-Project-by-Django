@@ -46,13 +46,13 @@ Fill in these settings:
 
 ### Build & Start Commands:
 
-**Build Command:**
-```bash
+**Build Command:** (Copy this exactly)
+```
 pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && python train_model.py
 ```
 
-**Start Command:**
-```bash
+**Start Command:** (Copy this exactly)
+```
 gunicorn config.wsgi:application
 ```
 
