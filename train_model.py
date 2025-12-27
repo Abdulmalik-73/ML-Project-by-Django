@@ -8,8 +8,7 @@ import pickle
 import os
 
 # Load dataset
-import os
-dataset_path = os.path.join(os.path.dirname(__file__), '..', 'haramaya_house_dataset', 'haramaya_house_data.csv')
+dataset_path = os.path.join(os.path.dirname(__file__), 'haramaya_house_data.csv')
 df = pd.read_csv(dataset_path)
 
 print("Dataset shape:", df.shape)

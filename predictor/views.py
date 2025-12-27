@@ -58,8 +58,10 @@ class PredictionView(FormView):
         location_encoded = le_location.transform([location])[0]
         condition_encoded = le_condition.transform([condition])[0]
         
-        # Prepare features
-        features = np.array([[
+        # Prepare features with proper feature names
+        import pandas as pd
+        feature_names = model_data.get('feature_names', ['bedrooms', 'bathrooms', 'house_size', 'land_size', 'location', 'condition', 'year_built'])
+        features = pd.DataFrame([[
             bedrooms,
             bathrooms,
             house_size,
@@ -67,7 +69,7 @@ class PredictionView(FormView):
             location_encoded,
             condition_encoded,
             year_built
-        ]])
+        ]], columns=feature_names)
         
         # Make prediction
         model = model_data['model']
@@ -135,8 +137,10 @@ def api_predict(request):
         location_encoded = le_location.transform([location])[0]
         condition_encoded = le_condition.transform([condition])[0]
         
-        # Prepare features
-        features = np.array([[
+        # Prepare features with proper feature names
+        import pandas as pd
+        feature_names = model_data.get('feature_names', ['bedrooms', 'bathrooms', 'house_size', 'land_size', 'location', 'condition', 'year_built'])
+        features = pd.DataFrame([[
             bedrooms,
             bathrooms,
             house_size,
@@ -144,7 +148,7 @@ def api_predict(request):
             location_encoded,
             condition_encoded,
             year_built
-        ]])
+        ]], columns=feature_names)
         
         # Predict
         model = model_data['model']
