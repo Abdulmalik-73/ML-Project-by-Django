@@ -7,6 +7,7 @@ import json
 import pickle
 import os
 import numpy as np
+import pandas as pd
 from .forms import HousePredictionForm
 from .models import PredictionHistory
 
@@ -59,7 +60,6 @@ class PredictionView(FormView):
         condition_encoded = le_condition.transform([condition])[0]
         
         # Prepare features with proper feature names
-        import pandas as pd
         feature_names = model_data.get('feature_names', ['bedrooms', 'bathrooms', 'house_size', 'land_size', 'location', 'condition', 'year_built'])
         features = pd.DataFrame([[
             bedrooms,
@@ -138,7 +138,6 @@ def api_predict(request):
         condition_encoded = le_condition.transform([condition])[0]
         
         # Prepare features with proper feature names
-        import pandas as pd
         feature_names = model_data.get('feature_names', ['bedrooms', 'bathrooms', 'house_size', 'land_size', 'location', 'condition', 'year_built'])
         features = pd.DataFrame([[
             bedrooms,
